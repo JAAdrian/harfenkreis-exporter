@@ -23,6 +23,14 @@ def _get_argparser() -> argparse.ArgumentParser:
 
 
 def _read_label_file(filepath: pathlib.Path) -> pandas.DataFrame:
+    """Read the Audactity label export file into a pandas DataFrame.
+
+    Args:
+        filepath: Filepath to the TXT label file.
+
+    Returns:
+        DataFrame containing the TXT-file's tabular content
+    """
     labels = pandas.read_csv(filepath, delimiter="\t", header=None)
     labels.columns = ("start", "end", "name")
     return labels
@@ -31,8 +39,17 @@ def _read_label_file(filepath: pathlib.Path) -> pandas.DataFrame:
 def _export_mp3(
     wav_file: pathlib.Path, labels: pandas.DataFrame, destination_path: pathlib.Path
 ):
+    """Export the individual audio segments to MP3.
+
+    Args:
+        wav_file: Filepath to the source WAV file.
+        labels: DataFrame containing the Audacity labels.
+        destination_path: Destination filepath to which the MP3 files are being
+                          exported.
+    """
     audio, sample_rate = soundfile.read(wav_file)
 
+    # Iterate over each DataFrame's row and export the corresponding audio segment.
     for index, row in tqdm(labels.iterrows(), total=labels.shape[0]):
         start, stop, name = row
 
