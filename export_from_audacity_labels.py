@@ -1,17 +1,21 @@
-"""Script which cuts audio from a WAV recording based on labels and exports MP3."""
+"""Script which cuts audio from a WAV recording based on labels and exports MP3.
+
+Author: Jens-Alrik Adrian
+Year: 2024
+"""
 
 import argparse
 import pathlib
-import soundfile
-import pandas
-from tqdm import tqdm
 
-TEST_PATH = r"test_directory"
+import pandas
+import soundfile
+from tqdm import tqdm
 
 
 def _get_argparser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--path", type=pathlib.Path)
+    parser.add_argument("-i", "--input-path", type=pathlib.Path)
+    parser.add_argument("-o", "--output-path", type=pathlib.Path)
 
     return parser
 
@@ -48,12 +52,11 @@ if __name__ == "__main__":
     parser = _get_argparser()
     arguments = parser.parse_args()
 
-    path = arguments.path
-    if not path:
-        path = pathlib.Path(TEST_PATH)
+    input_path = arguments.input_path
+    output_path = arguments.output_path
 
-    wav_files = tuple(path.glob("*.wav"))
-    label_files = tuple(path.glob("labels.txt"))
+    wav_files = tuple(input_path.glob("*.wav"))
+    label_files = tuple(input_path.glob("labels.txt"))
 
     if len(wav_files) > 1 or len(label_files) > 1:
         raise ValueError(
