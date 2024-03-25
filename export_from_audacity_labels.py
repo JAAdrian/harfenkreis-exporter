@@ -11,6 +11,8 @@ import pandas
 import soundfile
 from tqdm import tqdm
 
+__version__ = "1.0.0"
+
 
 def _get_argparser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
