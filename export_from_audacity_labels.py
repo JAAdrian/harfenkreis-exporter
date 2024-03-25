@@ -86,9 +86,8 @@ if __name__ == "__main__":
     wav_file = wav_files[0]
     label_file = label_files[0]
 
-    destination = pathlib.Path("mp3")
-    if not destination.is_dir():
-        destination.mkdir()
+    if not output_path.is_dir():
+        output_path.mkdir()
 
     labels = _read_label_file(label_file)
-    _export_mp3(wav_file, labels, destination_path=destination)
+    _export_mp3(wav_file, labels, destination_path=output_path)
