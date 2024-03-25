@@ -80,7 +80,7 @@ if __name__ == "__main__":
     if len(wav_files) > 1 or len(label_files) > 1:
         raise ValueError(
             "More than one WAV or label file have been found. "
-            "Only provide one of each in a single direcotry."
+            "Only provide one of each in a single directory."
         )
 
     wav_file = wav_files[0]
