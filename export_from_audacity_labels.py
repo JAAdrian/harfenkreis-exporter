@@ -6,6 +6,7 @@ Year: 2024
 
 import argparse
 import pathlib
+import sys
 
 import pandas
 import soundfile
@@ -16,8 +17,9 @@ __version__ = "1.0.0"
 
 def _get_argparser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--input-path", type=pathlib.Path)
-    parser.add_argument("-o", "--output-path", type=pathlib.Path)
+    parser.add_argument("-i", "--input-file", type=pathlib.Path, required=True)
+    parser.add_argument("-o", "--output-path", type=pathlib.Path, required=True)
+    parser.add_argument("-l", "--label-file", type=pathlib.Path, required=True)
 
     return parser
 
@@ -71,23 +73,22 @@ if __name__ == "__main__":
     parser = _get_argparser()
     arguments = parser.parse_args()
 
-    input_path = arguments.input_path
-    output_path = arguments.output_path
+    # Shortcircuit if no arguments had been given.
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit()
 
-    wav_files = tuple(input_path.glob("*.wav"))
-    label_files = tuple(input_path.glob("labels.txt"))
+    input_file: pathlib.Path = arguments.input_file
+    output_path: pathlib.Path = arguments.output_path
+    label_file:pathlib.Path = arguments.label_file
 
-    if len(wav_files) > 1 or len(label_files) > 1:
-        raise ValueError(
-            "More than one WAV or label file have been found. "
-            "Only provide one of each in a single directory."
-        )
-
-    wav_file = wav_files[0]
-    label_file = label_files[0]
+    if not input_file.is_file():
+        raise ValueError()
+    if not label_file.is_file():
+        raise ValueError()
 
     if not output_path.is_dir():
         output_path.mkdir()
 
     labels = _read_label_file(label_file)
-    _export_mp3(wav_file, labels, destination_path=output_path)
+    _export_mp3(wav_file=input_file, labels=labels, destination_path=output_path)
