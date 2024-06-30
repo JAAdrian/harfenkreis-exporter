@@ -15,25 +15,23 @@ python export_from_audacity_labels.py -h
 This will result in something like
 
 ```
-usage: export_from_audacity_labels.py [-h] [-i INPUT_PATH] [-o OUTPUT_PATH]
+usage: export_from_audacity_labels.py [-h] -i INPUT_FILE -o OUTPUT_PATH -l LABEL_FILE
+                                      [-d CREATION_DATE]
 
 options:
   -h, --help            show this help message and exit
-  -i INPUT_PATH, --input-path INPUT_PATH
+  -i INPUT_FILE, --input-file INPUT_FILE
+                        Point to the very WAV file for which the labels have been created. Audio
+                        from here will be segmented and exported to MP3.
   -o OUTPUT_PATH, --output-path OUTPUT_PATH
-```
-
-For smooth operations, just provide an input and output directory.
-
-The **input directory** is implicitly supposed to contain a WAV and a TXT file. Both are
-usually exports from Audacity. The TXT file is an export of the label track in Audacity
-which was used to label the song segments.
-
-```
-input_directory
-|
-|-- source_audio.wav
-|-- label_export.txt
+                        State the output path to where the MP3 artifacts should be exported to. If
+                        the directory does not exist it will be created.
+  -l LABEL_FILE, --label-file LABEL_FILE
+                        Point to the corresponding label file from Audacity. This will be used to
+                        segment the audio from INPUT_FILE.
+  -d CREATION_DATE, --creation-date CREATION_DATE
+                        Choose a date like '2024-06-09'. It will be affixed in the MP3 filestem if
+                        available.
 ```
 
 The resulting MP3 files of the individual song segments will be exported to the output
