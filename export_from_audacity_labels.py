@@ -58,7 +58,7 @@ def _export_mp3(
         start_sample = round(start * sample_rate)
         stop_sample = round(stop * sample_rate)
 
-        filestem = f"{index}_{name}.mp3"
+        filestem = f"{index+1}_{name}.mp3"
         filestem = filestem.replace(" ", "_").strip()
         mp3_filename = destination_path / filestem
 
@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
     input_file: pathlib.Path = arguments.input_file
     output_path: pathlib.Path = arguments.output_path
-    label_file:pathlib.Path = arguments.label_file
+    label_file: pathlib.Path = arguments.label_file
 
     if not input_file.is_file():
         raise ValueError()
